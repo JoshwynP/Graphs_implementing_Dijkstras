@@ -158,13 +158,18 @@ double Graph::find_time(double distance, double speed_limit, double adjustment_f
 }
 
 
-void Graph::Relax(int u, int v)
+LinkedList* Graph::Relax(int u, int v)
 {
     if(adjacency_list[v].Dijkstras_distance > (adjacency_list[u].Dijkstras_distance + adjacency_list[u].get_weight(v)))
     {
         adjacency_list[v].setd(adjacency_list[u].Dijkstras_distance + adjacency_list[u].get_weight(v));
+        cout << "new Dijkstras distance: " << adjacency_list[v].Dijkstras_distance << " ";
         adjacency_list[v].setparent(u);
+        cout << "new parent: " << adjacency_list[v].Dijkstras_parent << endl;
+
+        return &adjacency_list[v];
     }
+    return &adjacency_list[v];
 }
 
 bool Graph::Dijkstras(int s, int find_b)
@@ -226,13 +231,11 @@ bool Graph::Dijkstras(int s, int find_b)
         cout << endl;
         for (int i = 0; i < adjacency_list[u].num_vertices; i++)
         {
-        //     // go through blacklist and check all values to compare against the current adjacent vertex
-        //     int adjacent_index = adjacent_array[i];
-        //     if (!adjacency_list[adjacent_index].is_done)
-        //     {
-        //         relax(u.current_vertex, adjacent_array[i]);
-        //         //Q.modifyKey(adjacent_array[i]);
-        //     }
+            if (!adjacency_list[i].is_done)
+            {
+                // Now what is the index that we know that we will find this point at in the Queue?!
+                Q->modifyKey(adjacent_array[i], Relax(adjacency_list[u].current_vertex, adjacent_array[i]));
+            }
         }
         // delete[] adjacent_array;
     }

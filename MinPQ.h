@@ -22,7 +22,7 @@ class MinPQ
     
     int floor(int n);
 
-    void push(double distance);
+    void modifyKey(int i, LinkedList* u);
     int extractMin(int i);
     bool isEmpty();
 

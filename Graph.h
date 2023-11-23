@@ -31,7 +31,7 @@ public:
     bool delete_a_vertex(int vertex_a);
     bool traffic(int vertex_a, int vertex_b, double adjustment_factor);
 
-    void Relax(int u, int v);
+    LinkedList* Relax(int u, int v);
     bool Dijkstras(int s, int find_b);
     
     

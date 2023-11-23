@@ -93,8 +93,32 @@ int MinPQ::right(int i)
     return i;
 }
 
+int parent(int i) 
+{ 
+    i = (i - 1) / 2;
+    return i; 
+}
+
 int MinPQ::extractMin(int i)
 {
     int min = heap[i]->current_vertex;
     return min;
+}
+
+void MinPQ::modifyKey(int i, LinkedList* u)
+{
+    if (i >= 0 && i < size) 
+    {
+        heap[i] = u;
+
+        // Fix the heap by comparing the key with its parent and children
+        while (i > 0 && heap[parent(i)]->Dijkstras_distance > heap[i]->Dijkstras_distance) {
+            LinkedList* hold = heap[i];
+            heap[i] = heap[parent(i)];
+            heap[parent(i)] = hold;
+            i = parent(i);
+        }
+
+        heapify(i); // Fix the heap below the modified key
+    }
 }
