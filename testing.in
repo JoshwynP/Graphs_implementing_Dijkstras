@@ -1,0 +1,3 @@
+LOAD i.txt
+PATH 5 1
+END

@@ -5,28 +5,46 @@
 ////////////////////////// LinkedList Class Definitions /////////////////////////
 
 //default constructor definition //
-LinkedList::LinkedList(): list_head(nullptr) {}
+LinkedList::LinkedList(): list_head(nullptr) 
+{
+    // add variables that are uninitialized
+    current_vertex = 0;
+    Dijkstras_distance = std::numeric_limits<double>::infinity(); // infinity
+    Dijkstras_parent = 0;
+    num_vertices = 0;
+    heap_index = 0;
+    is_done = false;
+    is_Dij = false;
+    did_relax = false;
+}
 
 LinkedList::LinkedList(int vertex): list_head(nullptr)
 {
+    //cout << "LinkedList special constructor" << endl;
     current_vertex = vertex;
-    Dijkstras_distance = numeric_limits<double>::infinity(); // infinity
+    Dijkstras_distance = std::numeric_limits<double>::infinity(); // infinity
     Dijkstras_parent = 0;
     num_vertices = 0;
+    heap_index = 0;
     is_done = false;
+    is_Dij = false;
+    did_relax = false;
 }
 
 // destructor definition //
 LinkedList::~LinkedList()
 {
-    Node* current = list_head;
-    list_head = nullptr;
+    if (!is_Dij)
+    {    
+        Node* current = list_head;
+        list_head = nullptr;
 
-    while(current!= nullptr)
-    {
-        Node* temp = current;
-        current = current->getnext();
-        delete temp;
+        while(current!= nullptr)
+        {
+            Node* temp = current;
+            current = current->getnext();
+            delete temp;
+        }
     }
 }
 
@@ -67,15 +85,8 @@ void LinkedList::print_adjacent_vertices()
 
     while (temp_head != nullptr)
     {
-        //if (temp_head->vertex != 0)
-        //{
-            cout << temp_head->vertex << " ";
-            temp_head = temp_head->getnext();
-        //}
-        // else 
-        // {
-        //     temp_head = temp_head->getnext();
-        // }
+        cout << temp_head->vertex << " ";
+        temp_head = temp_head->getnext();
     }
 }
 
@@ -96,38 +107,47 @@ void LinkedList::delete_parent_vertex(int vertex)
 void LinkedList::delete_edge_vertex(int vertex)
 {
     Node* current = list_head;
-    Node* previous = current;
     int hold = 0;
-    int vertex_empty = 0;
     while (current != nullptr)
+    
     {
         hold = current->vertex;
-        cout << "if: " << hold << " is equal to: " << vertex << endl;
-        if (hold == vertex)
+        if (hold == vertex) // If the list head points to the current node
         {
-            break;
-        }
-        else 
-        {
-            cout << "not equal" << endl;
-            current = current->getnext();
-            if (vertex_empty > 2)
+            if (current == nullptr) // If the list head points to nothing
             {
-                previous = previous->getnext();
+                break;
+            } 
+            else if (list_head == current)
+            {
+                list_head = list_head->getnext(); // list head points to the next node
+                delete current;
+                num_vertices--;
+                break;
             }
-            vertex_empty++;
-        }
-    }
-    if (vertex_empty == 0)
-    {
-        list_head = nullptr;
-    }
 
-    
-    Node* temp = current;
-    current = current->getnext();
-    previous = current;
-    delete temp;
+            else // If the list head does not point to the current node (node is in the middle/end of the list)
+            {
+                Node* prior_node = list_head;
+
+                while(prior_node->getnext()!= current)
+                {
+                    prior_node = prior_node->getnext(); // Find the prior node to the current node
+                }
+
+                Node* hold = current->getnext();
+                prior_node->setnext(hold); // Set the prior node to the next node
+                delete current;
+                num_vertices--;
+                break;
+            }
+        } 
+        else
+        {
+            current = current->getnext();
+        }
+        
+    }
 }
 
 void LinkedList::update_adjustment_factor(int vertex, double adjustment_factor)
@@ -139,7 +159,7 @@ void LinkedList::update_adjustment_factor(int vertex, double adjustment_factor)
         {
             current->time = (current->time * current->adjustment_factor) * (1 / adjustment_factor);
             current->adjustment_factor = adjustment_factor;
-            cout << "new time is: " << current->time << " A is now = " << current->adjustment_factor << endl;
+            //cout << "new time is: " << current->time << " A is now = " << current->adjustment_factor << endl;
             return;
         }
         else
@@ -149,7 +169,7 @@ void LinkedList::update_adjustment_factor(int vertex, double adjustment_factor)
     }
 }
 
-void LinkedList::setd(int k)
+void LinkedList::setd(double k)
 {
     Dijkstras_distance = k;
 }
@@ -174,9 +194,10 @@ double LinkedList::get_weight(int vertex)
             temp_head = temp_head->getnext();
         }
     }
+    //cout << "not found" << endl;
     return 0;
 }
-
+// needs a delete
 int* LinkedList::adjacent()
 {
     Node* temp_head = list_head;

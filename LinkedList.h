@@ -21,10 +21,11 @@ class LinkedList
         void delete_edge_vertex(int vertex);
         void update_adjustment_factor(int vertex, double adjustment_factor);
 
-        void setd(int k);
+        void setd(double k);
         void setparent(int parent);
         double get_weight(int vertex);
         int* adjacent();
+        LinkedList* adjacentLink();
 
 
         int get_word(string word);
@@ -34,7 +35,9 @@ class LinkedList
         double Dijkstras_distance;
         int  Dijkstras_parent;
         int num_vertices;
+        int heap_index;
         bool is_done;
+        bool did_relax;
 
-        
+        bool is_Dij;
 };

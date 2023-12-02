@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include <fstream>
 #include "Graph.h"
 #include "illegal_exception.h"
 using namespace std;
 
 void parse_file()
-{
+{    
     Graph* city = new Graph();
     
     string command;
@@ -16,6 +17,10 @@ void parse_file()
     double distance;
     double speed_limit;
     double adjustment_factor;
+    string a;
+    string b;
+    string d;
+    string s;
 
     while (cin >> command) 
     {
@@ -23,14 +28,14 @@ void parse_file()
         {
             string filename;
             cin >> filename;
-            fstream fin(filename.c_str());
+            ifstream fin(filename.c_str());
 
             //string toRead;
-            while (fin >> vertex_a >> vertex_b >> distance >> speed_limit)
+            while (fin >> a >> b >> d >> s)
             {
-                cout <<"opening file " << filename << endl;
-                city->insert(vertex_a, vertex_b, distance, speed_limit, 1);
+                city->insert(stoi(a), stoi(b), stod(d), stod(s), 1);
             }
+            cout << "success" << endl;
             /////// End of the Load command ///////
         } 
 
@@ -40,7 +45,7 @@ void parse_file()
             try
             {
                 // can there be an edge from a to a?
-                if (vertex_a == vertex_b || vertex_a < 1 || vertex_a > 500000 || vertex_b < 1 || vertex_b > 500000 || distance <= 0 || speed_limit <= 0)
+                if (vertex_a < 1 || vertex_a > 500000 || vertex_b < 1 || vertex_b > 500000 || distance <= 0 || speed_limit <= 0)
                 {
                     throw illegal_exception();
                 }
@@ -125,7 +130,7 @@ void parse_file()
                 }
                 else
                 {
-                    if (city->Dijkstras(vertex_a, vertex_b))
+                    if (city->Dijkstras(vertex_a, vertex_b, "PATH"))
                     {
                         cout << "success" << endl;
                     }
@@ -172,14 +177,15 @@ void parse_file()
         { 
             string filename;
             cin >> filename;
-            fstream fin(filename.c_str());
+            ifstream fin(filename.c_str());
 
             //string toRead;
-            while (fin >> vertex_a >> vertex_b >> adjustment_factor)
+            while (fin >> a >> b >> s)
             {
-                cout << "opening file " << filename << endl;
-                city->traffic(vertex_a, vertex_b, adjustment_factor);
+                cout << "a =  " << stoi(a) << " b =  " << stoi(b) << " A =  " << stod(s) << endl;
+                city->traffic(stoi(a), stoi(b), stod(s));
             }
+            cout << "success" << endl;
             /////// End of the UPDATE command ///////
         }
 
@@ -192,18 +198,27 @@ void parse_file()
                 {
                     throw illegal_exception();
                 }
+                else
+                {
+                    if (city->Dijkstras(vertex_a, vertex_b, "LOWEST"))
+                    {
+                        cout << "success" << endl;
+                    }
+                    else
+                    {
+                        cout << "failure" << endl;
+                    }
+                }
             }
             catch (const illegal_exception& e) {
                 cout << e.what() << endl;
             }
-           
-           cout << command << endl;
             /////// End of the LOWEST command ///////
         }
 
         else if (command == "END") //END command is entered//
         { 
-            city->~Graph();
+            delete city;
             break;
         }
     }
