@@ -28,17 +28,17 @@ This function serves as the entry point of the program. It reads commands from t
 - Parameters: None.
 - Return Type: Void.
 
-### Command Handling Functions (LOAD, INSERT, PRINT, DELETE, PATH, TRAFFIC, UPDATE, LOWEST)
-
-- Purpose: Execute respective commands with error handling.
-- Parameters: Vary depending on the command.
-- Return Type: Void.
-
 ### main()
 
 - Purpose: Entry point of the program, calls `parse_file()` to start processing commands.
 - Parameters: None.
 - Return Type: Integer.
+
+### Command Handling Functions (LOAD, INSERT, PRINT, DELETE, PATH, TRAFFIC, UPDATE, LOWEST)
+
+- Purpose: Execute respective commands with error handling.
+- Parameters: Vary depending on the command.
+- Return Type: Void.
 
 ## Running the Program
 
