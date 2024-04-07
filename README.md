@@ -1,6 +1,7 @@
 # Graphs Implementing Dijkstra's Algorithm
 
 This repository hosts a comprehensive C++ project aimed at mapping city-to-city connections and determining the shortest path between them leveraging Dijkstra's algorithm. Beyond its core functionality, the project stands out for its intricate use of various fundamental data structures, including graphs, minimum priority queues, linked lists, and nodes, to efficiently manage and navigate complex datasets.
+For more information [click here to download the PDF file]([https://example.com/path/to/your/file.pdf](https://drive.google.com/file/d/1yTUexbmdHcnrB8---NdD4tw23ADMoBDU/view?usp=sharing))
 
 ## Core Functionalities
 
