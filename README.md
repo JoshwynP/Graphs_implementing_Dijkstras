@@ -1,50 +1,42 @@
 # Graphs Implementing Dijkstra's Algorithm
 
-This repository contains a C++ project for creating a map from city to city and finding the shortest path between them using Dijkstra's algorithm. The main file, `main.cpp`, implements various functions to load data, insert vertices, print graphs, delete vertices, find paths, adjust traffic, update traffic data, and find the lowest cost path.
+This repository hosts a comprehensive C++ project aimed at mapping city-to-city connections and determining the shortest path between them leveraging Dijkstra's algorithm. Beyond its core functionality, the project stands out for its intricate use of various fundamental data structures, including graphs, minimum priority queues, linked lists, and nodes, to efficiently manage and navigate complex datasets.
 
-## Functionality Overview
+## Core Functionalities
 
-### parse_file()
+### Data Structure Implementation
 
-This function serves as the entry point of the program. It reads commands from the standard input and executes corresponding actions.
+The project intricately implements several essential data structures to achieve efficient data management and algorithm execution:
 
-### Command Handling
+- **Graphs**: Serve as the backbone of the project, enabling the representation of cities as vertices and the roads between them as edges, along with associated attributes like distance and speed limits.
+- **Minimum Priority Queue**: Utilized within Dijkstra's algorithm to efficiently determine the next closest vertex to visit, ensuring optimal pathfinding with minimal computational overhead.
+- **Linked Lists**: Facilitate dynamic data storage, allowing for efficient insertion and deletion of vertices and edges, which is critical for handling the graph's mutable structure.
+- **Nodes**: Act as fundamental elements for linked lists and the graph, encapsulating data such as vertex identifiers, distances, and adjacency information.
 
-1. **LOAD**: Loads data from a specified file into the graph.
-2. **INSERT**: Inserts a new edge between two vertices with specified distance and speed limit.
-3. **PRINT**: Prints information about a specific vertex in the graph.
-4. **DELETE**: Deletes a vertex from the graph.
-5. **PATH**: Finds the shortest path between two vertices.
-6. **TRAFFIC**: Adjusts the traffic factor between two vertices.
-7. **UPDATE**: Updates traffic data from a specified file.
-8. **LOWEST**: Finds the lowest cost path between two vertices.
-9. **END**: Terminates the program.
+### Functional Overview
 
-## Function Details
+#### `parse_file()`
 
-### parse_file()
+Serves as the program's control center, interpreting and executing commands input through the standard input stream.
 
-- Purpose: Reads commands from standard input and executes corresponding actions.
-- Parameters: None.
-- Return Type: Void.
+#### Command Operations
 
-### main()
+1. **LOAD**: Populates the graph with data from a file, building the initial map layout.
+2. **INSERT**: Adds new edges to the graph, reflecting new or updated routes between cities.
+3. **PRINT**: Displays information about edges connected to a specified vertex, showcasing the graph's current state.
+4. **DELETE**: Removes vertices from the graph, along with their associated edges, adjusting the map as needed.
+5. **PATH**: Employs Dijkstra's algorithm to find the shortest path between two cities.
+6. **TRAFFIC**: Modifies edge weights to simulate traffic conditions, affecting pathfinding outcomes.
+7. **UPDATE**: Batch updates traffic data from a file, reflecting widespread changes in traffic conditions.
+8. **LOWEST**: Determines the lowest cost path considering both distance and traffic conditions.
+9. **END**: Cleans up resources and terminates the program.
 
-- Purpose: Entry point of the program, calls `parse_file()` to start processing commands.
-- Parameters: None.
-- Return Type: Integer.
+### Getting Started
 
-### Command Handling Functions (LOAD, INSERT, PRINT, DELETE, PATH, TRAFFIC, UPDATE, LOWEST)
+#### Compilation and Execution
 
-- Purpose: Execute respective commands with error handling.
-- Parameters: Vary depending on the command.
-- Return Type: Void.
+Compile `main.cpp` along with the required source files (`Graph.cpp`, `illegal_exception.cpp`) using a C++ compiler:
 
-## Running the Program
-
-To run the program, compile `main.cpp` along with `Graph.cpp` and `illegal_exception.cpp` using your preferred compiler. Then execute the compiled binary. Ensure input files for commands like LOAD and UPDATE are present in the same directory or provide proper file paths.
-
-Example:
 ```bash
 g++ main.cpp Graph.cpp illegal_exception.cpp -o main
 ./main
